@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Sep 22, 2011 11:11:23 PM                                                        
+
+     actorio    
+     Provide blocking style io interface for actor, but handle io request via non-blocking/async io
+                   
+     Regis                                                                
+     ====================================================================== -->
+<project name="actorio" default="compile" basedir=".">
+	<description>
+            Provide blocking style io interface for actor, but handle io request via non-blocking/async io
+    </description>
+
+	<property name="src.dir" location="${basedir}/src" />
+	<property name="lib.dir" location="${basedir}/lib" />
+	<property name="bin.dir" location="${basedir}/bin" />
+
+	<path id="kilim.lib">
+		<fileset dir="${lib.dir}">
+			<include name="kilim.jar" />
+		</fileset>
+	</path>
+
+	<!-- ================================= 
+          target: compile              
+         ================================= -->
+	<target name="compile" depends="compile-java, weave" description="Provide blocking style io interface for actor, but handle io request via non-blocking/async io">
+
+	</target>
+
+	<!-- ================================= 
+          target: compile-java              
+         ================================= -->
+	<target name="compile-java" description="Compile java code">
+		<mkdir dir="${basedir}/bin" />
+		<javac debug="true" source="1.7" target="1.7" destdir="${bin.dir}" srcdir="${src.dir}" includeantruntime="false">
+			<classpath refid="kilim.lib" />
+		</javac>
+	</target>
+
+	<!-- ================================= 
+          target: weave              
+         ================================= -->
+	<target name="weave" description="Weave java byte code for kilim">
+		<java classname="kilim.tools.Weaver" fork="yes">
+			<classpath refid="kilim.lib" />
+			<classpath path="${bin.dir}" />
+			<arg value="-d" />
+			<arg value="${bin.dir}" />
+			<arg value="${bin.dir}" />
+		</java>
+	</target>
+
+
+	<!-- ================================= 
+          target: clean              
+         ================================= -->
+	<target name="clean" description="Clean project">
+		<delete dir="${bin.dir}" />
+	</target>
+
+</project>
