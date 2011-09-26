@@ -26,6 +26,7 @@ public class EchoTask extends Task {
 			}
 		} finally {
 			port.close();
+			System.out.println("Connection " + port + " is closed.");
 		}
 	}
 }

@@ -18,6 +18,10 @@ public class SocketPort implements Port {
 		this.channel = channel;
 	}
 
+	public SocketPort() throws IOException {
+		channel = AsynchronousSocketChannel.open();
+	}
+
 	public void connect(String host, int port) throws Pausable, IOException {
 		channel.connect(new InetSocketAddress(host, port), mailbox, IoCompletionHandler.CONNECT_HANDLER);
 		Object result = mailbox.get();
